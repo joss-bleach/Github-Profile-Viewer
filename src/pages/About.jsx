@@ -4,7 +4,7 @@ const About = () => {
       <h1 className="mb-3 text-4xl font-semibold text-gpv-headline">About</h1>
       <p className="mb-3 text-gpv-paragraph">
         A GitHub profile viewer, where you can search GitHub profiles and view
-        details and repositories .Taken from{" "}
+        details and repositories. Taken from{" "}
         <a
           className="text-gpv-button transition hover:underline"
           target="_blank"

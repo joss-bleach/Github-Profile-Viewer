@@ -3,8 +3,9 @@ const About = () => {
     <div className="mx-auto max-w-prose">
       <h1 className="mb-3 text-4xl font-semibold text-gpv-headline">About</h1>
       <p className="mb-3 text-gpv-paragraph">
-        A GitHub profile viewer, where you can search GitHub profiles and view
-        details and repositories. Taken from{" "}
+        A simple GitHub profile viewer, a React app interacting with the GitHub
+        API where you can search for GitHub users and view their profiles. Taken
+        from{" "}
         <a
           className="text-gpv-button transition hover:underline"
           target="_blank"

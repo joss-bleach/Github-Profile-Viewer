@@ -3,17 +3,19 @@ import { FaMinusCircle } from "react-icons/fa";
 
 // Context
 import GithubContext from "../../context/github/GithubContext";
+import AlertContext from "../../context/alert/AlertContext";
 
 const UserSearch = () => {
   const [formInput, setFormInput] = useState("");
   const { users, fetchSearchedUsersFromGithub, clearUsersFromState } =
     useContext(GithubContext);
+  const { setNewAlert } = useContext(AlertContext);
 
   const handleOnChange = (e) => setFormInput(e.target.value);
   const handleOnSubmit = (e) => {
     e.preventDefault();
     if (formInput === "") {
-      window.alert("Please enter something.");
+      setNewAlert("Please enter something", "error");
     } else {
       fetchSearchedUsersFromGithub(formInput);
       setFormInput("");

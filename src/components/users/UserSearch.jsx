@@ -46,7 +46,7 @@ const UserSearch = () => {
           />
           <button
             type="submit"
-            className="ml:0 mt-4 h-12 w-full rounded bg-gpv-button font-semibold text-white md:mt-0 md:ml-4 md:w-40"
+            className="ml:0 mt-4 h-12 w-full rounded bg-gpv-button font-semibold text-white transition hover:bg-gpv-hover md:mt-0 md:ml-4 md:w-40"
           >
             Search
           </button>

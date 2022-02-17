@@ -12,7 +12,7 @@ const UserItem = ({ user: { login, avatar_url } }) => {
           <h3 className="font-semibold text-gpv-headline">{login}</h3>
           <Link
             className="text-xs font-semibold uppercase tracking-wide text-gpv-paragraph transition hover:text-gpv-button"
-            to={`/users/${login}`}
+            to={`/user/${login}`}
           >
             View Profile
           </Link>

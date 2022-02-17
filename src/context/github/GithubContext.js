@@ -9,6 +9,8 @@ const GITHUB_TOKEN = process.env.REACT_APP_GITHUB_TOKEN;
 export const GithubProvider = ({ children }) => {
   const initialState = {
     users: [],
+    user: {},
+    repos: [],
     loading: false,
   };
 
@@ -47,13 +49,58 @@ export const GithubProvider = ({ children }) => {
     });
   };
 
+  const fetchSingleUserFromGithub = async (login) => {
+    setLoading();
+    const userFromGithub = await fetch(`${GITHUB_URL}/users/${login}`, {
+      headers: {
+        Authorization: `token ${GITHUB_TOKEN}`,
+      },
+    });
+
+    if (userFromGithub.status === 404) {
+      window.location = "/notfound";
+    } else {
+      const data = await userFromGithub.json();
+      dispatch({
+        type: "GET_USER",
+        payload: data,
+      });
+    }
+  };
+
+  const fetchUserReposFromGithub = async (login) => {
+    setLoading();
+    const params = new URLSearchParams({
+      sort: "created",
+      per_page: 10,
+    });
+    const reposFromGithub = await fetch(
+      `${GITHUB_URL}/users/${login}/repos?${params}`,
+      {
+        headers: {
+          Authorization: `token ${GITHUB_TOKEN}`,
+        },
+      }
+    );
+
+    const data = await reposFromGithub.json();
+    dispatch({
+      type: "GET_REPOS",
+      payload: data,
+    });
+  };
+
   return (
     <GithubContext.Provider
       value={{
         users: state.users,
+        user: state.user,
+        repos: state.repos,
         loading: state.loading,
         fetchSearchedUsersFromGithub,
+        fetchSingleUserFromGithub,
         clearUsersFromState,
+        fetchUserReposFromGithub,
       }}
     >
       {children}

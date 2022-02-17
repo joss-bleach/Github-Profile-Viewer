@@ -16,7 +16,9 @@ module.exports = {
         headline: "#fffffe",
         paragraph: "#94a1b2",
         button: "#7f5af0",
+        hover: "#583EA8",
         card: "#242629",
+        tertiary: "#2cb67d",
       },
 
       inherit: colors.inherit,

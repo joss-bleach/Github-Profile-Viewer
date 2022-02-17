@@ -12,6 +12,7 @@ import Alert from "./components/layout/Alert";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import NotFound from "./pages/NotFound";
+import User from "./pages/User";
 
 const App = () => {
   return (
@@ -27,6 +28,7 @@ const App = () => {
                 <Route path="/about" element={<About />} />
                 <Route path="/notfound" element={<NotFound />} />
                 <Route path="/*" element={<NotFound />} />
+                <Route path="/user/:login" element={<User />} />
               </Routes>
             </main>
           </div>

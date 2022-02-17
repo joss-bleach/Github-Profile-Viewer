@@ -6,7 +6,6 @@ import {
   FaUserFriends,
   FaUsers,
   FaExternalLinkAlt,
-  FaTwitter,
 } from "react-icons/fa";
 
 // Context
@@ -32,19 +31,15 @@ const User = () => {
 
   const {
     name,
-    type,
     avatar_url,
-    location,
     bio,
     blog,
-    twitter_username,
     login,
     html_url,
     followers,
     following,
     public_repos,
     public_gists,
-    hireable,
   } = user;
 
   if (loading) {

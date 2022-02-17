@@ -6,29 +6,29 @@ import {
   FaUserFriends,
   FaUsers,
   FaExternalLinkAlt,
+  FaTwitter,
 } from "react-icons/fa";
 
 // Context
 import GithubContext from "../context/github/GithubContext";
+import { fetchSingleUserAndReposFromGithub } from "../context/github/GithubActions";
 
 // Components
 import Loading from "../components/layout/Loading";
 import RepoList from "../components/repos/RepoList";
 
 const User = () => {
-  const {
-    fetchSingleUserFromGithub,
-    user,
-    loading,
-    repos,
-    fetchUserReposFromGithub,
-  } = useContext(GithubContext);
+  const { user, loading, repos, dispatch } = useContext(GithubContext);
   const params = useParams();
 
   useEffect(() => {
-    fetchSingleUserFromGithub(params.login);
-    fetchUserReposFromGithub(params.login);
-  }, []);
+    dispatch({ type: "SET_LOADING" });
+    const userDataFromState = async () => {
+      const userData = await fetchSingleUserAndReposFromGithub(params.login);
+      dispatch({ type: "GET_USER_AND_REPOS", payload: userData });
+    };
+    userDataFromState();
+  }, [dispatch, params.login]);
 
   const {
     name,
@@ -57,8 +57,8 @@ const User = () => {
             <li className="text-gpv-headline transition hover:text-gpv-button">
               <Link to="/">Users</Link>
             </li>
-            <li className="text-gpv-headline">></li>
-            <li className="text-gpv-paragraph">{user.login}</li>
+            <li className="text-gpv-headline">&gt;</li>
+            <li className="text-gpv-paragraph">{login}</li>
           </ul>
         </div>
         <div className="flex w-full flex-col items-center rounded bg-gpv-card py-12 px-12 md:flex-row">
@@ -73,16 +73,28 @@ const User = () => {
           </div>
           <div className="pl-12">
             <div className="mb-6">
-              <h1 className="text-2xl font-semibold text-gpv-headline">
-                {user.login}
+              <h1 className="font-semibold text-gpv-headline">
+                {name === "" ? login : name}
               </h1>
-              <p className="text-gpv-paragraph">{user.bio}</p>
+              {blog && (
+                <div className="-mt-1 mb-2">
+                  <a
+                    href={blog}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-xs text-gpv-button transition hover:text-gpv-hover"
+                  >
+                    {blog}
+                  </a>
+                </div>
+              )}
+              <p className="text-gpv-paragraph">{bio}</p>
             </div>
             <a
               target="_blank"
               href={html_url}
               rel="noreferrer"
-              className="flex h-12 w-64 cursor-pointer flex-row items-center justify-center rounded bg-gpv-button px-6 font-semibold text-gpv-headline transition hover:bg-gpv-hover"
+              className="flex h-12 w-64 cursor-pointer flex-row items-center justify-center rounded bg-gpv-button px-6 text-sm font-semibold text-gpv-headline transition hover:bg-gpv-hover"
             >
               View GitHub Profile <FaExternalLinkAlt className="ml-2" />
             </a>

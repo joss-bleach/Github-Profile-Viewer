@@ -4,27 +4,27 @@ import { FaMinusCircle } from "react-icons/fa";
 // Context
 import GithubContext from "../../context/github/GithubContext";
 import AlertContext from "../../context/alert/AlertContext";
+import { fetchSearchedUsersFromGithub } from "../../context/github/GithubActions";
 
 const UserSearch = () => {
   const [formInput, setFormInput] = useState("");
-  const { users, fetchSearchedUsersFromGithub, clearUsersFromState } =
-    useContext(GithubContext);
+  const { users, dispatch } = useContext(GithubContext);
   const { setNewAlert } = useContext(AlertContext);
 
   const handleOnChange = (e) => setFormInput(e.target.value);
-  const handleOnSubmit = (e) => {
+  const handleOnSubmit = async (e) => {
     e.preventDefault();
     if (formInput === "") {
       setNewAlert("Please enter something", "error");
     } else {
-      fetchSearchedUsersFromGithub(formInput);
+      dispatch({ type: "SET_LOADING" });
+      const users = await fetchSearchedUsersFromGithub(formInput);
+      dispatch({ type: "GET_USERS", payload: users });
       setFormInput("");
     }
   };
-
-  const handleOnClearUsers = () => {
-    clearUsersFromState();
-    setFormInput("");
+  const handleClearList = () => {
+    dispatch({ type: "CLEAR_USERS" });
   };
 
   return (
@@ -54,13 +54,13 @@ const UserSearch = () => {
       </div>
       {users.length > 0 && (
         <div>
-          <p
-            onClick={handleOnClearUsers}
+          <button
+            onClick={handleClearList}
             className="my-6 flex cursor-pointer flex-row items-center text-xs font-semibold uppercase tracking-wide text-red-400"
           >
             <FaMinusCircle className="mr-2" />
             Clear results
-          </p>
+          </button>
         </div>
       )}
     </div>
